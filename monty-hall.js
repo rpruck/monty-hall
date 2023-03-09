@@ -104,6 +104,7 @@ function enableIterationsButton() {
 function updateAndPause() {
     doors.step++
     updateGraphics()
+    updateCode()
     return new Promise(resolve => setTimeout(resolve, ((stepTime * 1000) / speedFactor)))
 }
 

@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=PT+Sans:wght@400;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=PT+Sans:wght@400;700&family=Roboto+Mono&display=swap');
 
 :root {
     --red-primary: rgba(232, 52, 66, 1);
@@ -76,24 +76,17 @@ input[type=number] {
     padding: 8px;
 }
 
-.counter-wrapper {
-    display: flex;
-    flex-direction: column;
+.code {
+    font-family: 'Roboto Mono', monospace;
+    padding: 10px;
+    border-radius: 8px;
+    white-space: pre;
+    max-width: 30vw;
+    overflow: hidden;
 }
 
-.counter span {
-    color: var(--red-primary)
-}
-
-#chart-wrapper {
-    padding: 2em;
-    height: 600px;
-    width: 500px;
-}
-
-#chart {
-    height: 600px;
-    margin: 2em;
+#code-function {
+    margin-top: 20px;
 }
 
 #graphics {
@@ -154,4 +147,24 @@ input[type=number] {
     transition: all 0.5s;
     font-size: 24px;
     color: var(--red-primary);
+}
+
+.counter-wrapper {
+    display: flex;
+    flex-direction: column;
+}
+
+.counter span {
+    color: var(--red-primary)
+}
+
+#chart-wrapper {
+    padding: 2em;
+    height: 600px;
+    width: 500px;
+}
+
+#chart {
+    height: 600px;
+    margin: 2em;
 }
