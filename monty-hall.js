@@ -2,7 +2,8 @@ var doors = {
     items: [],
     choice: null,
     open: null,
-    switch: null
+    switch: null,
+    step: 0
 }
 
 var stepTime = 2
@@ -35,9 +36,24 @@ var chart = new Chart(ctx,
             datasets: [
                 {
                     label: 'Gewonnene Runden',
-                    data: [switchWins, stayWins]
+                    data: [switchWins, stayWins],
+                    backgroundColor: [
+                        'rgba(75, 192, 192, 0.4)',
+                        'rgba(255, 99, 132, 0.4)'
+                    ]
                 }
             ]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            scales: {
+                yAxes: [{
+                    ticks: {
+                        beginAtZero:true
+                    }
+                }]
+            }
         }
     }
 )
@@ -50,23 +66,27 @@ async function simulate() {
     updateStatistics(0)
 
     for (i = 0; i < iterationsInput.value; i++) {
+        doors.step = 0
 
         initializeItems()
+        await updateAndPause()
 
         chooseDoor()
+        await updateAndPause()
 
         openDoor()
+        await updateAndPause()
 
         switchDoor()
+        await updateAndPause()
 
         solve()
+        await updateAndPause()
 
         updateStatistics(i)
+        await updateAndPause()
 
-        await pause()
     }
-
-    console.log(`Ratio for switching is: ${switchWins / switchCounter} and for staying: ${stayWins / stayCounter}`)
 
     enableIterationsButton()
 }
@@ -81,7 +101,9 @@ function enableIterationsButton() {
     iterations.disabled = false
 }
 
-function pause() {
+function updateAndPause() {
+    doors.step++
+    updateGraphics()
     return new Promise(resolve => setTimeout(resolve, ((stepTime * 1000) / speedFactor)))
 }
 
@@ -90,7 +112,8 @@ function setUp() {
         items: [],
         choice: null,
         open: null,
-        switch: null
+        switch: null,
+        step: 0
     }
 
     stayCounter = 0;
@@ -130,9 +153,6 @@ function openDoor() {
 }
 
 function switchDoor() {
-    validDoors = [...doors.items]
-    //remove opened door
-    validDoors.splice(doors.openChoice, 1)
     const switchChoice = getRandomInt(2)
     doors.switch = (switchChoice === 1)
 }
@@ -166,8 +186,8 @@ function updateStatistics(iterations) {
     iterationsOutput.innerHTML = iterations + 1
     switchOutput.innerHTML = switchCounter
     stayOutput.innerHTML = stayCounter
-    switchRatioOutput.innerHTML = (switchWins / switchCounter).toFixed(2)
-    stayRatioOutput.innerHTML = (stayWins / stayCounter).toFixed(2)
+    switchRatioOutput.innerHTML = (switchWins / switchCounter * 100).toFixed(2)+ "%"
+    stayRatioOutput.innerHTML = (stayWins / stayCounter * 100).toFixed(2) + "%"
 }
 
 //max is not included in possible output

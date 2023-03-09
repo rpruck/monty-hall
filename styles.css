@@ -1,0 +1,157 @@
+@import url('https://fonts.googleapis.com/css2?family=PT+Sans:wght@400;700&display=swap');
+
+:root {
+    --red-primary: rgba(232, 52, 66, 1);
+}
+
+body {
+    font-family: 'PT Sans', sans-serif;
+    padding: 10px 20px;
+}
+
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+header img {
+    height: 36px;
+    
+}
+
+h1 {
+    font-size: 40px;
+    color: var(--red-primary);
+}
+
+#input-wrapper {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+#parameters {
+    display: flex;
+    justify-content: flex-start;
+}
+
+#simulation-button {
+    background-color: var(--red-primary);
+    color: white;
+    font-size: 20px;
+    font-family: 'PT Sans';
+    border-radius: 8px;
+    border: none;
+    padding: 10px;
+    width: 220px;
+    cursor: pointer;
+    transition: box-shadow 0.3s;
+}
+
+#simulation-button:hover {
+    box-shadow: 0 0 11px rgba(33,33,33,.2); 
+}
+
+
+.input-field {
+    margin-right: 20px;
+}
+
+.input-field label {
+    margin: 3px;
+}
+
+.content-wrapper {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 30px;
+}
+
+input[type=number] {
+    background-color: #f1f1f1;
+    border: none;
+    border-radius: 8px;
+    padding: 8px;
+}
+
+.counter-wrapper {
+    display: flex;
+    flex-direction: column;
+}
+
+.counter span {
+    color: var(--red-primary)
+}
+
+#chart-wrapper {
+    padding: 2em;
+    height: 600px;
+    width: 500px;
+}
+
+#chart {
+    height: 600px;
+    margin: 2em;
+}
+
+#graphics {
+    display: flex;
+}
+
+.image-wrapper {
+    display: flex;
+    justify-content: space-between;
+    width: 20vw;
+    height: 100%;
+    margin-top: 25vh;
+}
+
+.door-content {
+    position: relative;
+    height: 50vh;
+}
+
+.door {
+    width: 11vw;
+    position: absolute;
+    top: 0;
+    left: 0;
+    transition: all 0.5s;
+}
+
+.door-opaque {
+    opacity: 20%;
+    z-index: -1;
+}
+
+.door-select {
+    filter: hue-rotate(90deg)
+}
+
+.door-final-select {
+    filter: hue-rotate(-90deg)
+}
+
+.item {
+    width: 6vw;
+    position: absolute;
+    top: 20px;
+    left: 2.2vw;
+    transition: all 0.5s;
+}
+
+.item-invisible {
+    opacity: 0;
+}
+
+.item-popout {
+    transform: translateY(-8vw);
+}
+
+#status {
+    transition: all 0.5s;
+    font-size: 24px;
+    color: var(--red-primary);
+}
