@@ -32,7 +32,7 @@ var chart = new Chart(ctx,
     {
         type: 'bar',
         data: {
-            labels: ['Gewechselt', 'Geblieben'],
+            labels: ['Gewechselt', 'Verblieben'],
             datasets: [
                 {
                     label: 'Gewonnene Runden',
