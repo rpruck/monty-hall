@@ -18,11 +18,13 @@ const speedFactorInput = document.getElementById("speedFactor")
 const iterationsInput = document.getElementById("iterations")
 
 stepTimeInput.addEventListener("change", (e) => stepTime = e.target.value)
-iterationsInput.addEventListener("change", (e) => speedFactor = e.target.value)
+speedFactorInput.addEventListener("change", (e) => speedFactor = e.target.value)
 
 const iterationsOutput = document.getElementById("iterationsCounter")
 const switchOutput = document.getElementById("switchCounter")
 const stayOutput = document.getElementById("stayCounter")
+const switchRatioOutput = document.getElementById("switchRatio")
+const stayRatioOutput = document.getElementById("stayRatio")
 
 const ctx = document.getElementById("chart")
 var chart = new Chart(ctx,
@@ -42,11 +44,8 @@ var chart = new Chart(ctx,
 
 async function simulate() {
     disableIterationsButton()
-    stayCounter = 0;
-    switchCounter = 0;
 
-    stayWins = 0;
-    switchWins = 0;
+    setUp()
 
     updateStatistics(0)
 
@@ -61,15 +60,13 @@ async function simulate() {
         switchDoor()
 
         solve()
-        
-        await pause()
 
         updateStatistics(i)
 
         await pause()
     }
 
-    console.log(`Ratio for switching is: ${switchWins/switchCounter} and for staying: ${stayWins/stayCounter}`)
+    console.log(`Ratio for switching is: ${switchWins / switchCounter} and for staying: ${stayWins / stayCounter}`)
 
     enableIterationsButton()
 }
@@ -86,6 +83,21 @@ function enableIterationsButton() {
 
 function pause() {
     return new Promise(resolve => setTimeout(resolve, ((stepTime * 1000) / speedFactor)))
+}
+
+function setUp() {
+    doors = {
+        items: [],
+        choice: null,
+        open: null,
+        switch: null
+    }
+
+    stayCounter = 0;
+    switchCounter = 0;
+
+    stayWins = 0;
+    switchWins = 0;
 }
 
 function initializeItems() {
@@ -112,9 +124,7 @@ function openDoor() {
 
     //if goat is chosen by player, choose to show other goat
     else {
-        carIndex = doors.items.indexOf("car")
-        const choiceIndex = validIndexes.filter(index => index !== carIndex)
-        openChoice = choiceIndex[0]
+        openChoice = 3 - (doors.items.indexOf("car") + doors.choice)
     }
     doors.open = openChoice
 }
@@ -132,16 +142,11 @@ function solve() {
     if (!doors.switch) {
         hasWon = (doors.items[doors.choice] === "car")
     } else {
-        let validIndexes = [0, 1, 2]
-        validIndexes = validIndexes.filter(index => index !== doors.openChoice)
-        validIndexes = validIndexes.filter(index => index !== doors.choice)
-        let finalIndex = validIndexes[0]
+        let finalIndex = 3 - (doors.open + doors.choice)
         hasWon = (doors.items[finalIndex] === "car")
     }
 
     updateScore(hasWon)
-
-    return hasWon
 }
 
 function updateScore(hasWon) {
@@ -161,6 +166,8 @@ function updateStatistics(iterations) {
     iterationsOutput.innerHTML = iterations + 1
     switchOutput.innerHTML = switchCounter
     stayOutput.innerHTML = stayCounter
+    switchRatioOutput.innerHTML = (switchWins / switchCounter).toFixed(2)
+    stayRatioOutput.innerHTML = (stayWins / stayCounter).toFixed(2)
 }
 
 //max is not included in possible output
